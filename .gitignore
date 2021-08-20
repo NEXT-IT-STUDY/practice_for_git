@@ -1,0 +1,14 @@
+# Node.js
+node_modules
+
+## Mac OS x
+.DS_*
+
+## VS Code
+.vscode
+
+## Jest
+coverage
+
+## build
+build
