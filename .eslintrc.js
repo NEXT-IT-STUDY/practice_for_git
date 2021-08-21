@@ -5,9 +5,10 @@ module.exports = {
     jest: true,
   },
   extends: [
-    'plugin:react/recommended',
     'airbnb',
+    'plugin:react/recommended',
   ],
+  parser: '@typescript-eslint/parser',
   globals: {
     given: 'readonly',
     context: 'readonly',
@@ -19,10 +20,13 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
+
   plugins: [
     'react',
+    '@typescript-eslint',
   ],
   rules: {
+    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
     indent: ['error', 2],
     'no-trailing-spaces': 'error',
     curly: 'error',
@@ -49,5 +53,16 @@ module.exports = {
     'no-proto': 'off',
     'no-param-reassign': ['error'],
     'react/jsx-props-no-spreading': ['error'],
+    'no-use-before-define': 'off',
+    'import/extensions': 'off',
+    'import/no-unresolved': 'off',
+    'import/no-extraneous-dependencies': [1, { devDependencies: ['**/*.test.tsx'] }],
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+      },
+    },
   },
 };

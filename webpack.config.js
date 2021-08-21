@@ -1,7 +1,7 @@
+const path = require('path');
 const webpack = require('webpack');
 
-const path = require('path');
-
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const DEVELOPMENT = 'development';
@@ -11,7 +11,7 @@ const mode = process.env.NODE_ENV || DEVELOPMENT;
 
 const appBuild = path.resolve(__dirname, 'build');
 const appSrc = path.resolve(__dirname, 'src');
-const appIndex = path.resolve(__dirname, 'src', 'index.jsx');
+const appIndex = path.resolve(__dirname, 'src', 'index.tsx');
 const appHtml = path.resolve(__dirname, 'public', 'index.html');
 
 module.exports = {
@@ -27,15 +27,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: 'babel-loader',
         include: appSrc,
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   devServer: {
     static: {
@@ -44,11 +48,14 @@ module.exports = {
     client: {
       overlay: true,
     },
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/index.html',
+    },
     hot: true,
     compress: true,
   },
   plugins: [
+    new Dotenv(),
     new webpack.BannerPlugin({
       banner: `
         Build Date: ${new Date().toLocaleString()}
